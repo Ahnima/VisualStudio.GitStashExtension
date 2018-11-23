@@ -18,8 +18,16 @@ namespace VisualStudio.GitStashExtension.Services
 
         public BitmapSource GetFileIcon(string fileExtension)
         {
-            var image = _vsImageService.GetIconForFileEx(fileExtension, __VSUIDATAFORMAT.VSDF_WPF, out var _) as WpfPropertyValue;
-            return image?.Value as BitmapSource;
+            try
+            {
+                var image = _vsImageService.GetIconForFileEx(fileExtension, __VSUIDATAFORMAT.VSDF_WPF, out var _) as WpfPropertyValue;
+                return image?.Value as BitmapSource;
+            }
+            catch (System.Exception)
+            {
+                var image = _vsImageService.GetIconForFileEx(".txt", __VSUIDATAFORMAT.VSDF_WPF, out var _) as WpfPropertyValue;
+                return image?.Value as BitmapSource;
+            }
         }
 
         public BitmapSource GetFolderIcon(bool isExpanded)
